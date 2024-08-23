@@ -38,7 +38,6 @@ const AnidbDescription = React.memo(({ className, text }: { text: string, classN
     if (prevPos < cleanedText.length) {
       lines.push(cleanedText.substring(prevPos));
     }
-    LinkRegex.lastIndex = 0;
     return lines.join('');
   }, [text]);
   return <div className={className ?? 'pr-4 text-base'}>{modifiedText}</div>;

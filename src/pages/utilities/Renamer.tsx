@@ -360,6 +360,7 @@ const Renamer = () => {
     dispatch(clearRenameResults());
     // initialClear is used to skip the effect on initial render, adding it to deps would cause the effect to run
     // an extra time
+    // eslint-disable-next-line react-compiler/react-compiler
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedConfig, dispatch]);
 

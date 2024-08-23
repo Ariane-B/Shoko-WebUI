@@ -48,7 +48,17 @@ export default defineConfig(async () => {
       sourcemap: true,
       chunkSizeWarningLimit: 2000
     },
-    plugins: [react(), sentryPlugin, manualChunksPlugin()],
+    plugins: [
+      react({
+        babel: {
+          plugins: [
+            ["babel-plugin-react-compiler"],
+          ],
+        },
+      }),
+      sentryPlugin,
+      manualChunksPlugin()
+    ],
     base: "/webui/"
   };
 });

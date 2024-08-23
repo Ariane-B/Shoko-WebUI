@@ -110,64 +110,67 @@ const Series = () => {
   }
 
   return (
-    <div className="flex flex-col gap-y-6" ref={containerRef}>
-      <div className="my-6 flex flex-col items-center gap-y-3">
-        <div className="flex flex-row items-center gap-x-4">
-          <Link className="text-xl font-semibold text-panel-text-primary" to="/webui/collection">
-            Entire Collection
-          </Link>
-          <Icon className="text-panel-icon" path={mdiChevronRight} size={1} />
-          {groupQuery.isSuccess && groupQuery.data.Size > 1 && (
-            <>
-              <Link
-                className="text-xl font-semibold text-panel-text-primary"
-                to={`/webui/collection/group/${series.IDs.ParentGroup}`}
-              >
-                {groupQuery.data.Name}
-              </Link>
-              <Icon className="text-panel-icon" path={mdiChevronRight} size={1} />
-            </>
-          )}
+    <>
+      <title>{`${series.Name} - Shoko`}</title>
+      <div className="flex flex-col gap-y-6" ref={containerRef}>
+        <div className="my-6 flex flex-col items-center gap-y-3">
+          <div className="flex flex-row items-center gap-x-4">
+            <Link className="text-xl font-semibold text-panel-text-primary" to="/webui/collection">
+              Entire Collection
+            </Link>
+            <Icon className="text-panel-icon" path={mdiChevronRight} size={1} />
+            {groupQuery.isSuccess && groupQuery.data.Size > 1 && (
+              <>
+                <Link
+                  className="text-xl font-semibold text-panel-text-primary"
+                  to={`/webui/collection/group/${series.IDs.ParentGroup}`}
+                >
+                  {groupQuery.data.Name}
+                </Link>
+                <Icon className="text-panel-icon" path={mdiChevronRight} size={1} />
+              </>
+            )}
+          </div>
+          <div className="text-4xl font-semibold">{series.Name}</div>
+          <div className="flex gap-x-3 text-xl font-semibold opacity-65">
+            {mainTitle}
+            {mainTitle && originalTitle && <span>|</span>}
+            {originalTitle}
+          </div>
         </div>
-        <div className="text-4xl font-semibold">{series.Name}</div>
-        <div className="flex gap-x-3 text-xl font-semibold opacity-65">
-          {mainTitle}
-          {mainTitle && originalTitle && <span>|</span>}
-          {originalTitle}
+        <SeriesTopPanel series={series} />
+        <div className="flex justify-between rounded-lg border border-panel-border bg-panel-background-transparent p-6 font-semibold">
+          <div className="flex gap-x-10">
+            <SeriesTab to="overview" icon={mdiInformationOutline} text="Overview" />
+            <SeriesTab to="episodes" icon={mdiFilmstrip} text="Episodes" />
+            <SeriesTab to="credits" icon={mdiAccountGroupOutline} text="Credits" />
+            <SeriesTab to="images" icon={mdiImageMultipleOutline} text="Images" />
+            <SeriesTab to="tags" icon={mdiTagTextOutline} text="Tags" />
+            <SeriesTab to="files" icon={mdiFileDocumentMultipleOutline} text="Files" />
+          </div>
+          <div>
+            <Button buttonType="secondary" buttonSize="normal" className="flex gap-x-2" onClick={onClickHandler}>
+              <Icon path={mdiPencilCircleOutline} size={1} />
+              Edit Series
+            </Button>
+          </div>
         </div>
+
+        <EditSeriesModal />
+
+        <Outlet context={{ backdrop, scrollRef } satisfies SeriesContextType} />
+
+        <div
+          className="fixed left-0 top-0 -z-10 w-full bg-cover bg-fixed opacity-5"
+          // If this height feels like a hack, you figure out how to fix it
+          // 3rem accounts for the top and bottom padding of the container (1.5rem each side)
+          style={{
+            backgroundImage: backdrop ? `url('${getImagePath(backdrop)}')` : undefined,
+            height: `calc(${containerBounds.height}px + 3rem)`,
+          }}
+        />
       </div>
-      <SeriesTopPanel series={series} />
-      <div className="flex justify-between rounded-lg border border-panel-border bg-panel-background-transparent p-6 font-semibold">
-        <div className="flex gap-x-10">
-          <SeriesTab to="overview" icon={mdiInformationOutline} text="Overview" />
-          <SeriesTab to="episodes" icon={mdiFilmstrip} text="Episodes" />
-          <SeriesTab to="credits" icon={mdiAccountGroupOutline} text="Credits" />
-          <SeriesTab to="images" icon={mdiImageMultipleOutline} text="Images" />
-          <SeriesTab to="tags" icon={mdiTagTextOutline} text="Tags" />
-          <SeriesTab to="files" icon={mdiFileDocumentMultipleOutline} text="Files" />
-        </div>
-        <div>
-          <Button buttonType="secondary" buttonSize="normal" className="flex gap-x-2" onClick={onClickHandler}>
-            <Icon path={mdiPencilCircleOutline} size={1} />
-            Edit Series
-          </Button>
-        </div>
-      </div>
-
-      <EditSeriesModal />
-
-      <Outlet context={{ backdrop, scrollRef } satisfies SeriesContextType} />
-
-      <div
-        className="fixed left-0 top-0 -z-10 w-full bg-cover bg-fixed opacity-5"
-        // If this height feels like a hack, you figure out how to fix it
-        // 3rem accounts for the top and bottom padding of the container (1.5rem each side)
-        style={{
-          backgroundImage: backdrop ? `url('${getImagePath(backdrop)}')` : undefined,
-          height: `calc(${containerBounds.height}px + 3rem)`,
-        }}
-      />
-    </div>
+    </>
   );
 };
 

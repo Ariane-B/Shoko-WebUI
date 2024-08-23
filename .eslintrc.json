@@ -16,7 +16,7 @@
     "browser": true,
     "es6": true
   },
-  "plugins": ["import", "react", "react-hooks", "jsx-a11y", "sort-destructure-keys", "react-refresh"],
+  "plugins": ["import", "react", "react-hooks", "jsx-a11y", "sort-destructure-keys", "react-refresh", "react-compiler"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json"
@@ -30,6 +30,7 @@
     }
   },
   "rules": {
+    "react-compiler/react-compiler": "warn",
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/indent": "off",
     "@typescript-eslint/no-floating-promises": [
